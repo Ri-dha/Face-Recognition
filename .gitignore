@@ -1,1 +1,7 @@
 /db.sqlite3
+/media/
+/profiles/migrations/
+/logs/migrations/
+
+/static/media/logs/upload.png
+/static/media/logs/upload_hUtJfDl.png
