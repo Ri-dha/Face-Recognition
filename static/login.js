@@ -23,6 +23,7 @@ const captureBtn = document.getElementById('capture-btn')
 const reloadBtn = document.getElementById('reload-btn')
 
 reloadBtn.addEventListener('click', () => {
+
     window.location.reload()
 })
 

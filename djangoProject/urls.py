@@ -15,8 +15,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from ninja import NinjaAPI
 from django.urls import path
 from django.conf import settings
+from profiles.controller import profiles_controller
 from django.conf.urls.static import static
 from .views import (
     login_view,
@@ -25,12 +27,17 @@ from .views import (
     find_user_view
 )
 
+api = NinjaAPI()
+
+api.add_router('profiles', profiles_controller)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_view, name='home'),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
     path('classify/', find_user_view, name='classify'),
+    path('api/', api.urls),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
