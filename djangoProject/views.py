@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from profiles.models import Profile
 
 
+
 def login_view(request):
     return render(request, 'login.html', {})
 
@@ -47,5 +48,5 @@ def find_user_view(request):
                 x.save()
 
                 login(request, user)
-                return JsonResponse({'success': True})
+                return JsonResponse({'success': True},)
         return JsonResponse({'success': False})

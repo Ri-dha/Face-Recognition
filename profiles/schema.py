@@ -6,7 +6,7 @@ class ProfileIn(Schema):
     username: str = None
     name: str = None
     profile_password: str = None
-    photo: str = None
+
     refresh_token: str = None
     profile_email: str = None
 
@@ -18,3 +18,11 @@ class ProfileOut(Schema):
     refresh_token: str = None
     profile_password: str = None
     profile_email: str = None
+
+
+class UpdateRefreshToken(Schema):
+    refresh_token: str = None
+
+
+class UpdatePassword(Schema):
+    profile_password: str = None

@@ -1,12 +1,10 @@
 from django.contrib.auth.models import User
-from ninja import Router, File, NinjaAPI
+from ninja import Router, File
 from ninja.files import UploadedFile
-from http import HTTPStatus
-from django.core.files.storage import default_storage
-from django.core.files.base import ContentFile
+from profiles.utlis.savePhoto import save_photo_with_new_name
 from django.shortcuts import get_object_or_404
 from .models import Profile
-from .schema import ProfileIn, ProfileOut
+from .schema import ProfileIn, ProfileOut, UpdateRefreshToken, UpdatePassword
 
 profiles_controller = Router(tags=['profiles'])
 
@@ -20,7 +18,9 @@ def get_profile(request, id_number: int):
 
 #  create profile and user with photo save in profile
 @profiles_controller.post('/', response=ProfileOut)
-def create_profile(request, profile_in: ProfileIn, photo: UploadedFile = File(...)):
+def create_profile(request, profile_in: ProfileIn
+                   , photo: UploadedFile = File(...)
+                   ):
     user = User.objects.create_user(username=profile_in.username, password=profile_in.profile_password)
     profile = get_object_or_404(Profile, user=user)
     profile.name = profile_in.name
@@ -28,7 +28,6 @@ def create_profile(request, profile_in: ProfileIn, photo: UploadedFile = File(..
     profile.profile_password = profile_in.profile_password
     profile.profile_email = profile_in.profile_email
     profile.refresh_token = profile_in.refresh_token
-    # i want to change the name of the photo to the id_number of the profile and name before save
     new_photo = save_photo_with_new_name(photo, profile.id_number)
 
     profile.photo = new_photo
@@ -36,12 +35,23 @@ def create_profile(request, profile_in: ProfileIn, photo: UploadedFile = File(..
     return profile
 
 
-def save_photo_with_new_name(photo, id_number):
-    # Create a new name for the photo
-    new_name = f"{id_number}_{photo.name}"
+@profiles_controller.get('/name/{id_number}', response=ProfileOut)
+def get_by_name(request, id_number: int):
+    profile = get_object_or_404(Profile, id_number=id_number)
+    return profile
 
-    # Save the photo with the new name
-    new_photo = default_storage.save(new_name, ContentFile(photo.read()))
 
-    # Return the new photo
-    return new_photo
+@profiles_controller.put('/{id_number}', response=ProfileOut)
+def update_refresh_token(request, id_number: int, update_refresh_token: UpdateRefreshToken):
+    profile = get_object_or_404(Profile, id_number=id_number)
+    profile.refresh_token = update_refresh_token.refresh_token
+    profile.save()
+    return profile
+
+
+@profiles_controller.put('/{id_number}', response=ProfileOut)
+def update_password(request, id_number: int, update_password: UpdatePassword):
+    profile = get_object_or_404(Profile, id_number=id_number)
+    profile.profile_password = update_password.profile_password
+    profile.save()
+    return profile
