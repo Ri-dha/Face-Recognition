@@ -9,6 +9,11 @@ from .schema import ProfileIn, ProfileOut, UpdateRefreshToken, UpdatePassword
 profiles_controller = Router(tags=['profiles'])
 
 
+@profiles_controller.get('/refresh_token/{refresh_token}', response=ProfileOut)
+def get_by_refresh_token(request, refresh_token: str):
+    profile = get_object_or_404(Profile, refresh_token=refresh_token)
+    return profile
+
 # get profile id_number
 @profiles_controller.get('/{id_number}', response=ProfileOut)
 def get_profile(request, id_number: int):
