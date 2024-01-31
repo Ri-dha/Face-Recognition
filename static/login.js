@@ -23,6 +23,7 @@ const captureBtn = document.getElementById('capture-btn')
 const reloadBtn = document.getElementById('reload-btn')
 
 reloadBtn.addEventListener('click', () => {
+
     window.location.reload()
 })
 
@@ -76,7 +77,7 @@ if (navigator.mediaDevices.getUserMedia) {
                                 //     window.location.href = resp.redirect;
                                 // }
                                 window.location.href = window.location.origin
-                                return false;
+                                // return false;
                             },
                             error: (err) => {
                                 console.log(err)

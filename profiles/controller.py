@@ -14,6 +14,7 @@ def get_by_refresh_token(request, refresh_token: str):
     profile = get_object_or_404(Profile, refresh_token=refresh_token)
     return profile
 
+
 # get profile id_number
 @profiles_controller.get('/{id_number}', response=ProfileOut)
 def get_profile(request, id_number: int):
