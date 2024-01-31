@@ -8,7 +8,7 @@ from logs.models import Log
 from django.core.files.base import ContentFile
 from django.contrib.auth.models import User
 from profiles.models import Profile
-
+from profiles.schema import ProfileOut
 
 
 def login_view(request):
@@ -48,5 +48,5 @@ def find_user_view(request):
                 x.save()
 
                 login(request, user)
-                return JsonResponse({'success': True},)
+                return JsonResponse({'success': True})
         return JsonResponse({'success': False})

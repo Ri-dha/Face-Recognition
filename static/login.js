@@ -23,7 +23,6 @@ const captureBtn = document.getElementById('capture-btn')
 const reloadBtn = document.getElementById('reload-btn')
 
 reloadBtn.addEventListener('click', () => {
-
     window.location.reload()
 })
 
@@ -55,14 +54,14 @@ if (navigator.mediaDevices.getUserMedia) {
                         const base64data = reader.result
                         console.log(base64data)
 
-                        // const fd = new FormData()
-                        // fd.append('csrfmiddlewaretoken', csrftoken)
-                        // fd.append('photo', base64data)
+                        const fd = new FormData()
+                        fd.append('csrfmiddlewaretoken', csrftoken)
+                        fd.append('photo', base64data)
 
-                        const fd = {
-                            csrfmiddlewaretoken: csrftoken,
-                            photo: base64data
-                        }
+                        // const fd = {
+                        //     csrfmiddlewaretoken: csrftoken,
+                        //     photo: base64data
+                        // }
 
                         $.ajax({
                             type: 'POST',
@@ -73,10 +72,10 @@ if (navigator.mediaDevices.getUserMedia) {
                             contentType: false,
                             success: (resp) => {
                                 console.log('res--', resp)
-                                if (resp.redirect) {
-                                    window.location.href = resp.redirect;
-                                }
-                                // window.location.href = window.location.origin
+                                // if (resp.redirect) {
+                                //     window.location.href = resp.redirect;
+                                // }
+                                window.location.href = window.location.origin
                                 return false;
                             },
                             error: (err) => {
