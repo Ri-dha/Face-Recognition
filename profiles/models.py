@@ -7,7 +7,10 @@ from django.contrib.auth.models import User
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, blank=True)
+    profile_email = models.CharField(max_length=200, blank=True)
     id_number = models.IntegerField(blank=True, null=True, unique=True)
+    refresh_token = models.CharField(max_length=200, blank=True)
+    profile_password = models.CharField(max_length=200, blank=True)
     photo = models.ImageField(blank=True, upload_to='photos')
     created = models.DateTimeField(auto_now_add=True)
 
