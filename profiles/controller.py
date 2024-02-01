@@ -34,7 +34,7 @@ def create_profile(request, profile_in: ProfileIn
     profile.profile_password = profile_in.profile_password
     profile.profile_email = profile_in.profile_email
     profile.refresh_token = profile_in.refresh_token
-    new_photo = save_photo_with_new_name(photo, profile.id_number)
+    new_photo = save_photo_with_new_name(photo, profile.id_number, profile.name)
 
     profile.photo = new_photo
     profile.save()
